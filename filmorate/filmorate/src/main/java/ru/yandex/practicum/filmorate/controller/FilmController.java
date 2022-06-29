@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.validator.FilmIdValidator;
 import ru.yandex.practicum.filmorate.validator.FilmRealiseDateValidator;
 import ru.yandex.practicum.filmorate.validator.FilmValidator;
 
@@ -18,7 +19,8 @@ import java.util.List;
 public class FilmController {
 
     HashMap<Integer, Film> films = new HashMap<>();
-    private static final List<FilmValidator> validators = List.of(new FilmRealiseDateValidator());
+    private static final List<FilmValidator> validators = List.of(new FilmRealiseDateValidator()
+            , new FilmIdValidator());
     private int id = 0;
 
     @GetMapping
@@ -27,14 +29,10 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film post(@Valid @RequestBody Film film) {
+    public Film post(@Valid @RequestBody Film film) throws ValidateException {
 
-        try {
-            checkValidation(film);
-        } catch (ValidateException e) {
-            //TODO
-            return null;
-        }
+        checkValidation(film);
+
         film.setId(++id);
         films.put(id, film);
         log.debug("Записан новый фильм: {}", film);
@@ -42,13 +40,10 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film put(@Valid @RequestBody Film film) {
-        try {
-            checkValidation(film);
-        } catch (ValidateException e) {
-            //TODO
-            return null;
-        }
+    public Film put(@Valid @RequestBody Film film) throws ValidateException {
+
+        checkValidation(film);
+
         final int id = film.getId();
         if (films.containsKey(id)) {
             films.replace(id, film);

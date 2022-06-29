@@ -1,21 +1,30 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
 public class User {
 
     private int id;
-    @Email
+
+    @Email(regexp = "\\w+@\\w+.\\w+", message = ("email не прошел валидацию"))
+    @NonNull
     private String email;
+
+    @Pattern(regexp = "\\w+", message = ("login не может быть пустым или содержать пробелы"))
+    @NonNull
     private String login;
 
-    //TODO
     private String name;
-    @Past
+
+    @Past(message = "Дата рождения не может быть в будущем")
+    @NonNull
     private LocalDate birthday;
 }

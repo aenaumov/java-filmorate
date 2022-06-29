@@ -12,8 +12,7 @@ public class FilmRealiseDateValidator implements FilmValidator {
     @Override
     public void validate(Film film) throws ValidateException {
         if (film.getReleaseDate().isBefore(CINEMA_BIRTHDAY)) {
-            throw new ValidateFilmRealiseDateException("Дата релиза фильма не может быть ранее " +
-                    "даты рождения кинематографа");
+            throw new ValidateFilmRealiseDateException("Дата релиза фильма не может быть ранее " + CINEMA_BIRTHDAY);
         }
 
     }
