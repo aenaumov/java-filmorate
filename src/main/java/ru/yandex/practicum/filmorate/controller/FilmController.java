@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class FilmController {
 
-    HashMap<Integer, Film> films = new HashMap<>();
+    private final HashMap<Integer, Film> films = new HashMap<>();
     private static final List<FilmValidator> validators = List.of(new FilmRealiseDateValidator()
             , new FilmIdValidator());
     private int id = 0;

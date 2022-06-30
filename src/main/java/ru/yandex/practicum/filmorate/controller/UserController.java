@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
-    HashMap<Integer, User> users = new HashMap<>();
+    private final HashMap<Integer, User> users = new HashMap<>();
     private static final List<UserValidator> validators = List.of(new UserNameValidation()
             , new UserIdValidator());
     private int id = 0;
