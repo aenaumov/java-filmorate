@@ -7,24 +7,28 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@AllArgsConstructor
-public class Film {
-
-    final static LocalDate CINEMA_BIRTHDAY = LocalDate.of(1895, 12, 28);
-
-    private int id;
+public class Film extends Model {
 
     @NotBlank(message = ("название не может быть пустым"))
-    @NonNull
+    @NotNull
     private String name;
 
     @Size(max = 200, message = ("длина описания должна быть менее 200 знаков"))
-    @NonNull()
+    @NotNull
     private String description;
 
-    @NonNull
+    @NotNull
     private LocalDate releaseDate;
 
     @Positive(message = ("Продолжительность не может быть отрицательной"))
-    private double duration;
+    @NotNull
+    private Double duration;
+
+    public Film(int id, String name, String description, LocalDate releaseDate, Double duration) {
+        super(id);
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+    }
 }

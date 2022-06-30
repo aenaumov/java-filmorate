@@ -4,60 +4,48 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Model;
 import ru.yandex.practicum.filmorate.validator.FilmIdValidator;
 import ru.yandex.practicum.filmorate.validator.FilmRealiseDateValidator;
-import ru.yandex.practicum.filmorate.validator.FilmValidator;
+import ru.yandex.practicum.filmorate.validator.Validator;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/films")
 @Slf4j
-public class FilmController {
+public class FilmController extends Controller {
 
-    private final HashMap<Integer, Film> films = new HashMap<>();
-    private static final List<FilmValidator> validators = List.of(new FilmRealiseDateValidator()
+    protected static final List<Validator> validators = List.of(new FilmRealiseDateValidator()
             , new FilmIdValidator());
-    private int id = 0;
+
+    public FilmController() {
+        super.setValidators(validators);
+    }
 
     @GetMapping
-    public Collection<Film> getAll() {
-        return films.values();
+    public Collection<Film> getAllFilms() {
+        Collection<Model> models = super.getAll();
+        HashSet<Film> films = new HashSet<>();
+        for (Model model : models) {
+            films.add((Film) model);
+        }
+        return films;
     }
 
     @PostMapping
-    public Film post(@Valid @RequestBody Film film) throws ValidateException {
-
-        checkValidation(film);
-
-        film.setId(++id);
-        films.put(id, film);
+    public Film postFilm(@Valid @RequestBody Film film) throws ValidateException {
+        super.post(film);
         log.debug("Записан новый фильм: {}", film);
         return film;
     }
 
     @PutMapping
-    public Film put(@Valid @RequestBody Film film) throws ValidateException {
-
-        checkValidation(film);
-
-        final int id = film.getId();
-        if (films.containsKey(id)) {
-            films.replace(id, film);
-            log.debug("Обновлен фильм: {}", film);
-        } else {
-            films.put(id, film);
-            log.debug("Записан новый фильм: {}", film);
-        }
+    public Film putFilm(@Valid @RequestBody Film film) throws ValidateException {
+        super.put(film);
+        log.debug("Обновлен фильм: {}", film);
         return film;
     }
 
-    private static void checkValidation(Film film) throws ValidateException {
-        for (FilmValidator validator : FilmController.validators) {
-            validator.validate(film);
-        }
-    }
 }

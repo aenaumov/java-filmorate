@@ -24,7 +24,8 @@ class UserControllerTest {
 
     @Test
     void id_negative_Test() {
-        User user = new User(0, "email.yandex.ru", "Alex", null
+
+        User user = new User(0, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
         user.setId(-1);
         ValidateException e = assertThrows(ValidateException.class, () -> controller.checkValidation(user));
