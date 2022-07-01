@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.time.LocalDate;
 import java.util.Set;
@@ -20,6 +21,14 @@ class UserControllerTest {
     @BeforeEach
     void init() {
         controller = new UserController();
+    }
+
+    @Test
+    void notExisted_Id_Test() {
+        User user = new User(1, "email@yandex.ru", "Alex", "test"
+                , LocalDate.of(1900, 10, 20));
+        ValidateException e = assertThrows(ValidateException.class, ()->controller.putUser(user));
+        assertEquals("нет объекта с таким id: 1", e.getMessage());
     }
 
     @Test
