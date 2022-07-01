@@ -11,26 +11,25 @@ import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-public abstract class Controller {
-    protected final HashMap<Integer, Model> models = new HashMap<>();
+public abstract class Controller<T extends Model> {
+    protected final HashMap<Integer, T> models = new HashMap<>();
 
     @Setter
     protected List<Validator> validators;
     protected int id = 0;
 
-    protected Collection<Model> getAll() {
+    protected Collection<T> getAll() {
         return models.values();
     }
 
-    protected void post(Model model) throws ValidateException {
+    protected void post(T model) throws ValidateException {
 
         checkValidation(model);
-
         model.setId(++id);
         models.put(id, model);
     }
 
-    protected void put(Model model) throws ValidateException {
+    protected void put(T model) throws ValidateException {
 
         final int id = model.getId();
         if (models.containsKey(id)) {
@@ -41,7 +40,7 @@ public abstract class Controller {
         }
     }
 
-    protected void checkValidation(Model model) throws ValidateException {
+    protected void checkValidation(T model) throws ValidateException {
         for (Validator validator : validators) {
             validator.validate(model);
         }

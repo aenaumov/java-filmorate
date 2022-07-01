@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
-import ru.yandex.practicum.filmorate.model.Model;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validator.UserIdValidator;
 import ru.yandex.practicum.filmorate.validator.UserNameValidation;
@@ -17,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-public class UserController extends Controller {
+public class UserController extends Controller<User> {
 
     protected static final List<Validator> validators = List.of(new UserNameValidation()
             , new UserIdValidator());
@@ -28,13 +27,7 @@ public class UserController extends Controller {
 
     @GetMapping
     public Collection<User> getAllUsers() {
-
-        Collection<Model> models = super.getAll();
-        HashSet<User> users = new HashSet<>();
-        for (Model model : models) {
-            users.add((User) model);
-        }
-        return users;
+        return super.getAll();
     }
 
     @PostMapping

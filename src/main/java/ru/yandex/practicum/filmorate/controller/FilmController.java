@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Model;
 import ru.yandex.practicum.filmorate.validator.FilmIdValidator;
 import ru.yandex.practicum.filmorate.validator.FilmRealiseDateValidator;
 import ru.yandex.practicum.filmorate.validator.Validator;
@@ -15,7 +14,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/films")
 @Slf4j
-public class FilmController extends Controller {
+public class FilmController extends Controller<Film> {
 
     protected static final List<Validator> validators = List.of(new FilmRealiseDateValidator()
             , new FilmIdValidator());
@@ -26,12 +25,7 @@ public class FilmController extends Controller {
 
     @GetMapping
     public Collection<Film> getAllFilms() {
-        Collection<Model> models = super.getAll();
-        HashSet<Film> films = new HashSet<>();
-        for (Model model : models) {
-            films.add((Film) model);
-        }
-        return films;
+        return super.getAll();
     }
 
     @PostMapping
