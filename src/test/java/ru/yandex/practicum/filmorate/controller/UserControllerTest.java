@@ -27,7 +27,7 @@ class UserControllerTest {
     void notExisted_Id_Test() {
         User user = new User(1, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
-        ValidateException e = assertThrows(ValidateException.class, ()->controller.putUser(user));
+        ValidateException e = assertThrows(ValidateException.class, ()->controller.put(user));
         assertEquals("нет объекта с таким id: 1", e.getMessage());
     }
 
