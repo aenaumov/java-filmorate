@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -27,7 +29,9 @@ public class User extends Model {
     @NotNull
     private LocalDate birthday;
 
-    public User(int id, String email, String login, String name, LocalDate birthday) {
+    private Set<Integer> friends=new HashSet<>();
+
+    public User(Integer id, String email, String login, String name, LocalDate birthday) {
         super(id);
         this.email = email;
         this.login = login;
@@ -35,4 +39,11 @@ public class User extends Model {
         this.birthday = birthday;
     }
 
+    public void addFriend(Integer friendId){
+        friends.add(friendId);
+    }
+
+    public void deleteFriend(Integer friendId){
+        friends.remove(friendId);
+    }
 }

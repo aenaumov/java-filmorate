@@ -12,49 +12,36 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-@RestController
+//@RestController
 @Slf4j
 public abstract class Controller<T extends Model> {
-    protected final HashMap<Integer, T> models = new HashMap<>();
+//    protected final HashMap<Integer, T> models = new HashMap<>();
 
-    @Setter
-    protected List<Validator> validators;
-    protected int idModel = 0;
+//    @Setter
+//    protected List<Validator> validators;
+//    protected int idModel = 0;
 
 
-    @GetMapping
+//    @GetMapping
     public Collection<T> getAll() {
-        return models.values();
+
+        return null;
     }
 
-    @PostMapping
+//    @PostMapping
     public T post(@Valid @RequestBody T model) throws ValidateException {
 
-        checkValidation(model);
-        model.setId(++idModel);
-        models.put(idModel, model);
-        log.debug("Создан объект: {}", model);
+
         return model;
     }
 
-    @PutMapping
+//    @PutMapping
     public T put(@Valid @RequestBody T model) throws ValidateException {
 
-        final int id = model.getId();
-        if (models.containsKey(id)) {
-            checkValidation(model);
-            models.replace(id, model);
-            log.debug("Обновлен объект: {}", model);
-        } else {
-            throw new ValidateException("нет объекта с таким id: " + id);
-        }
+
         return model;
     }
 
-    protected void checkValidation(T model) throws ValidateException {
-        for (Validator validator : validators) {
-            validator.validate(model);
-        }
-    }
+
 
 }
