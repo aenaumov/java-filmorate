@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable Integer id) {
-        return userService.getUserById(id);
+        return userService.getModelById(id);
     }
 
     @PutMapping("/users/{id}/friends/{friendId}")

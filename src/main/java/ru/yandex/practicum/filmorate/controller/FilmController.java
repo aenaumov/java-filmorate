@@ -38,7 +38,7 @@ public class FilmController extends Controller<Film> {
 
     @GetMapping("/films/{id}")
     public Film getFilm(@PathVariable Integer id) {
-        return filmService.getFilmById(id);
+        return filmService.getModelById(id);
     }
 
     @PutMapping("/films/{id}/like/{userId}")

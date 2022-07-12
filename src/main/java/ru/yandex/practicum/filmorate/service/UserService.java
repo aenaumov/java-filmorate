@@ -1,68 +1,28 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
-import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.ModelStorage;
 import ru.yandex.practicum.filmorate.validator.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService extends ru.yandex.practicum.filmorate.service.Service<User> {
 
     protected static final List<Validator<User>> validators = List.of(new UserNameValidation()
             , new UserIdValidator());
 
-    private final ModelStorage<User> userStorage;
-
-    @Autowired
-    public UserService(ModelStorage<User> userStorage) {
-        this.userStorage = userStorage;
-    }
-
-    public Collection<User> getAll() {
-        return userStorage.getAll();
-    }
-
-    public User add(User model) throws ValidateException {
-        checkValidation(model);
-        userStorage.add(model);
-        return model;
-    }
-
-    public User update(User model) throws ValidateException {
-        final Integer id = model.getId();
-        if (userStorage.getAllId().contains(id)) {
-            checkValidation(model);
-            userStorage.update(model);
-        } else {
-            throw new UserNotFoundException(String.format("User с id %d не найден", id));
-        }
-        return model;
-    }
-
-    public void checkValidation(User user) throws ValidateException {
-        for (Validator<User> validator : validators) {
-            validator.validate(user);
-        }
-    }
-
-    public User getUserById(Integer id) {
-        return getAll().stream()
-                .filter(u -> u.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new UserNotFoundException(String.format("User с id %d не найден", id)));
+    public UserService(ModelStorage<User> modelStorage) {
+        super(modelStorage, validators);
     }
 
     public boolean isUserId(Integer id) {
-        Set<Integer> allId = userStorage.getAllId();
+        Set<Integer> allId = modelStorage.getAllId();
         if (!allId.contains(id)) {
             throw new UserNotFoundException(String.format("User с id %d не найден", id));
         }
@@ -70,21 +30,21 @@ public class UserService {
     }
 
     public void addFriend(Integer userId, Integer friendId) {
-        User user = getUserById(userId);
-        User friend = getUserById(friendId);
+        User user = getModelById(userId);
+        User friend = getModelById(friendId);
         friend.addFriend(userId);
-        userStorage.update(friend);
+        modelStorage.update(friend);
         user.addFriend(friendId);
-        userStorage.update(user);
+        modelStorage.update(user);
     }
 
     public void deleteFriend(Integer userId, Integer friendId) {
-        User user = getUserById(userId);
-        User friend = getUserById(friendId);
+        User user = getModelById(userId);
+        User friend = getModelById(friendId);
         friend.deleteFriend(userId);
-        userStorage.update(friend);
+        modelStorage.update(friend);
         user.deleteFriend(friendId);
-        userStorage.update(user);
+        modelStorage.update(user);
     }
 
     public List<User> getListOfFriend(Integer id) {
@@ -95,8 +55,8 @@ public class UserService {
     }
 
     public List<User> getListOfCommonFriends(Integer userId, Integer otherId) {
-        User user = getUserById(userId);
-        User other = getUserById(otherId);
+        User user = getModelById(userId);
+        User other = getModelById(otherId);
         if (user.getFriends() == null || other.getFriends() == null) {
             return Collections.emptyList();
         }
