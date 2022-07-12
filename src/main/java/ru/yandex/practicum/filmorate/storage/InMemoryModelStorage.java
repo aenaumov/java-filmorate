@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Slf4j
-public class InMemoryModelStorage<T extends Model> implements ModelStorage<T> {
+public abstract class InMemoryModelStorage<T extends Model> implements ModelStorage<T> {
 
     protected final HashMap<Integer, T> models = new HashMap<>();
     protected Integer idModel = 0;
