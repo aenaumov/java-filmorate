@@ -13,7 +13,7 @@ import java.util.*;
 @RestController
 public class FilmController extends Controller<Film> {
 
-    FilmService filmService;
+    private final FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {

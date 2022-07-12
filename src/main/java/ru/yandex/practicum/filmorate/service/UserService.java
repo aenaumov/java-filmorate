@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.storage.ModelStorage;
 import ru.yandex.practicum.filmorate.validator.*;
 
 import java.util.Collection;
@@ -20,10 +20,10 @@ public class UserService {
     protected static final List<Validator<User>> validators = List.of(new UserNameValidation()
             , new UserIdValidator());
 
-    UserStorage userStorage;
+    private final ModelStorage<User> userStorage;
 
     @Autowired
-    public UserService(UserStorage userStorage) {
+    public UserService(ModelStorage<User> userStorage) {
         this.userStorage = userStorage;
     }
 

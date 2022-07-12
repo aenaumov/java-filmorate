@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {

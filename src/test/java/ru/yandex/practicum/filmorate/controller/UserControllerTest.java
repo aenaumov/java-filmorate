@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.ModelStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import javax.validation.ConstraintViolation;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserControllerTest {
 
     UserController controller;
-    UserStorage storage;
+    ModelStorage<User> storage;
     UserService service;
 
     @BeforeEach

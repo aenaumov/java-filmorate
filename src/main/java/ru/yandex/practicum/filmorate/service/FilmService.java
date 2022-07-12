@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.ModelStorage;
 import ru.yandex.practicum.filmorate.validator.FilmIdValidator;
 import ru.yandex.practicum.filmorate.validator.FilmRealiseDateValidator;
 import ru.yandex.practicum.filmorate.validator.Validator;
@@ -20,11 +20,11 @@ public class FilmService {
     protected static final List<Validator<Film>> validators = List.of(new FilmRealiseDateValidator()
             , new FilmIdValidator());
 
-    FilmStorage filmStorage;
-    UserService userService;
+    private final ModelStorage<Film> filmStorage;
+    private final UserService userService;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage, UserService userService) {
+    public FilmService(ModelStorage<Film> filmStorage, UserService userService) {
         this.filmStorage = filmStorage;
         this.userService = userService;
     }
