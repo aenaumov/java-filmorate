@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-public class FilmController extends Controller<Film> {
+public class FilmController {
 
     private final FilmService filmService;
 
