@@ -45,7 +45,9 @@ public class UserService extends ru.yandex.practicum.filmorate.service.Service<U
     }
 
     public List<User> getListOfFriend(Integer id) {
-        isUserId(id);
+        if(!isUserId(id)){
+            return Collections.emptyList();
+        }
         return getAll().stream()
                 .filter(x -> x.getFriends().contains(id))
                 .collect(Collectors.toList());

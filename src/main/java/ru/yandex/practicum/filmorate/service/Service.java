@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exception.ModelNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Model;
 import ru.yandex.practicum.filmorate.storage.ModelStorage;
@@ -30,7 +30,7 @@ public abstract class Service<T extends Model> {
         if (modelStorage.getAllId().contains(id)) {
             modelStorage.update(model);
         } else {
-            throw new UserNotFoundException(String.format("Объект с id %d не найден", id));
+            throw new ModelNotFoundException(String.format("Объект с id %d не найден", id));
         }
         return model;
     }
@@ -39,7 +39,7 @@ public abstract class Service<T extends Model> {
         return getAll().stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new UserNotFoundException(String.format("Объект с id %d не найден", id)));
+                .orElseThrow(() -> new ModelNotFoundException(String.format("Объект с id %d не найден", id)));
     }
 
 }

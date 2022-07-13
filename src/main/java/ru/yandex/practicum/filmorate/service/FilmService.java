@@ -2,32 +2,39 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.ModelStorage;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class FilmService extends ru.yandex.practicum.filmorate.service.Service<Film> {
 
-    private final UserService userService;
+    private final ModelStorage<User> userStorage;
 
     @Autowired
-    public FilmService(ModelStorage<Film> modelStorage, UserService userService) {
+    public FilmService(ModelStorage<Film> modelStorage, ModelStorage<User> userStorage) {
         super(modelStorage);
-        this.userService = userService;
+        this.userStorage = userStorage;
     }
 
     public void addLike(Integer filmId, Integer userId) {
-        userService.isUserId(userId);
+        if(!isUserId(userId)){
+            return;
+        }
         Film film = getModelById(filmId);
         film.addLike(userId);
         modelStorage.update(film);
     }
 
     public void deleteLike(Integer filmId, Integer userId) {
-        userService.isUserId(userId);
+        if(!isUserId(userId)){
+            return;
+        }
         Film film = getModelById(filmId);
         film.deleteLike(userId);
         modelStorage.update(film);
@@ -38,5 +45,13 @@ public class FilmService extends ru.yandex.practicum.filmorate.service.Service<F
                 .sorted((f1, f2) -> f2.getLikes().size() - f1.getLikes().size())
                 .limit(count)
                 .collect(Collectors.toList());
+    }
+
+    public boolean isUserId(Integer id) {
+        Set<Integer> allId = userStorage.getAllId();
+        if (!allId.contains(id)) {
+            throw new UserNotFoundException(String.format("User с id %d не найден", id));
+        }
+        return true;
     }
 }

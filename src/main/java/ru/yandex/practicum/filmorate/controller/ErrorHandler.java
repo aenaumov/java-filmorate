@@ -27,6 +27,13 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleModelNotFound(final ModelNotFoundException e) {
+        log.info("404 {}", e.getMessage());
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleIncorrectParameter(final IncorrectParameterException e) {
         log.info("400 {}", e.getMessage());
