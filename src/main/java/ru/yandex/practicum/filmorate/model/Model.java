@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public abstract class Model {
 
-    protected Integer id;
+    protected Long id;
 
 }

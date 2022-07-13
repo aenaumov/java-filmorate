@@ -5,5 +5,5 @@ import ru.yandex.practicum.filmorate.model.User;
 
 
 @Component
-public class InMemoryUserStorage extends InMemoryModelStorage<User> implements ModelStorage<User> {
+public class InMemoryUserStorage extends InMemoryModelStorage<User> {
 }

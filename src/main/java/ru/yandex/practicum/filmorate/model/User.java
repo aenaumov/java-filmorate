@@ -31,9 +31,9 @@ public class User extends Model {
     private LocalDate birthday;
 
     @JsonIgnore
-    private Set<Integer> friends=new HashSet<>();
+    private Set<Long> friends=new HashSet<>();
 
-    public User(Integer id, String email, String login, String name, LocalDate birthday) {
+    public User(Long id, String email, String login, String name, LocalDate birthday) {
         super(id);
         this.email = email;
         this.login = login;
@@ -41,11 +41,11 @@ public class User extends Model {
         this.birthday = birthday;
     }
 
-    public void addFriend(Integer friendId){
+    public void addFriend(Long friendId){
         friends.add(friendId);
     }
 
-    public void deleteFriend(Integer friendId){
+    public void deleteFriend(Long friendId){
         friends.remove(friendId);
     }
 }

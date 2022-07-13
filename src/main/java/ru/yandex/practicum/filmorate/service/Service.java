@@ -26,7 +26,7 @@ public abstract class Service<T extends Model> {
     }
 
     public T update(T model) throws ValidateException {
-        final Integer id = model.getId();
+        final Long id = model.getId();
         if (modelStorage.getAllId().contains(id)) {
             modelStorage.update(model);
         } else {
@@ -35,7 +35,7 @@ public abstract class Service<T extends Model> {
         return model;
     }
 
-    public T getModelById(Integer id) {
+    public T getModelById(Long id) {
         return getAll().stream()
                 .filter(u -> u.getId().equals(id))
                 .findFirst()

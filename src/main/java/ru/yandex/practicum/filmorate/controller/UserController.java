@@ -50,34 +50,34 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Integer id) {
+    public User getUser(@PathVariable Long id) {
         log.info("GET user by id={}", id);
         return userService.getModelById(id);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable("id") Integer userId,
-                          @PathVariable Integer friendId) {
+    public void addFriend(@PathVariable("id") Long userId,
+                          @PathVariable Long friendId) {
         log.info("PUT user id={} has added user id={} to friends", userId, friendId);
         userService.addFriend(userId, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public void deleteFriend(@PathVariable("id") Integer userId,
-                             @PathVariable Integer friendId) {
+    public void deleteFriend(@PathVariable("id") Long userId,
+                             @PathVariable Long friendId) {
         log.info("DELETE user id={} has deleted user id={} from friends", userId, friendId);
         userService.deleteFriend(userId, friendId);
     }
 
     @GetMapping("/{id}/friends")
-    public List<User> getListOfFriends(@PathVariable Integer id) {
+    public List<User> getListOfFriends(@PathVariable Long id) {
         log.info("GET list of friends of user id={}", id);
         return userService.getListOfFriend(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getListOfCommonFriends(@PathVariable("id") Integer userId,
-                                             @PathVariable Integer otherId) {
+    public List<User> getListOfCommonFriends(@PathVariable("id") Long userId,
+                                             @PathVariable Long otherId) {
         log.info("GET list of common friends of user id={} and user id={}", userId, otherId);
         return userService.getListOfCommonFriends(userId, otherId);
     }

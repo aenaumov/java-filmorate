@@ -18,15 +18,15 @@ public class UserService extends ru.yandex.practicum.filmorate.service.Service<U
         super(modelStorage);
     }
 
-    public boolean isUserId(Integer id) {
-        Set<Integer> allId = modelStorage.getAllId();
+    private boolean isUserId(Long id) {
+        Set<Long> allId = modelStorage.getAllId();
         if (!allId.contains(id)) {
             throw new UserNotFoundException(String.format("User с id %d не найден", id));
         }
         return true;
     }
 
-    public void addFriend(Integer userId, Integer friendId) {
+    public void addFriend(Long userId, Long friendId) {
         User user = getModelById(userId);
         User friend = getModelById(friendId);
         friend.addFriend(userId);
@@ -35,7 +35,7 @@ public class UserService extends ru.yandex.practicum.filmorate.service.Service<U
         modelStorage.update(user);
     }
 
-    public void deleteFriend(Integer userId, Integer friendId) {
+    public void deleteFriend(Long userId, Long friendId) {
         User user = getModelById(userId);
         User friend = getModelById(friendId);
         friend.deleteFriend(userId);
@@ -44,7 +44,7 @@ public class UserService extends ru.yandex.practicum.filmorate.service.Service<U
         modelStorage.update(user);
     }
 
-    public List<User> getListOfFriend(Integer id) {
+    public List<User> getListOfFriend(Long id) {
         if(!isUserId(id)){
             return Collections.emptyList();
         }
@@ -53,7 +53,7 @@ public class UserService extends ru.yandex.practicum.filmorate.service.Service<U
                 .collect(Collectors.toList());
     }
 
-    public List<User> getListOfCommonFriends(Integer userId, Integer otherId) {
+    public List<User> getListOfCommonFriends(Long userId, Long otherId) {
         User user = getModelById(userId);
         User other = getModelById(otherId);
         if (user.getFriends() == null || other.getFriends() == null) {

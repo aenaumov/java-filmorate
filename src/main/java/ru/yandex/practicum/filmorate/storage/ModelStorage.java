@@ -8,7 +8,7 @@ import java.util.Set;
 public interface ModelStorage<T extends Model> {
 
     Collection<T> getAll();
-    Set<Integer> getAllId();
+    Set<Long> getAllId();
     void add(T model);
     void update(T model);
     void delete(T model);

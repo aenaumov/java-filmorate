@@ -10,10 +10,10 @@ import java.util.Set;
 @Slf4j
 public abstract class InMemoryModelStorage<T extends Model> implements ModelStorage<T> {
 
-    protected final HashMap<Integer, T> models = new HashMap<>();
-    protected Integer idModel = 0;
+    protected final HashMap<Long, T> models = new HashMap<>();
+    protected Long idModel = 0L;
 
-    private Integer getNextId() {
+    private Long getNextId() {
         return idModel++;
     }
 
@@ -23,7 +23,7 @@ public abstract class InMemoryModelStorage<T extends Model> implements ModelStor
     }
 
     @Override
-    public Set<Integer> getAllId() {
+    public Set<Long> getAllId() {
         return models.keySet();
     }
 
@@ -36,14 +36,14 @@ public abstract class InMemoryModelStorage<T extends Model> implements ModelStor
 
     @Override
     public void update(T model) {
-        final int id = model.getId();
+        final Long id = model.getId();
         models.replace(id, model);
         log.debug("Обновлен объект: {}", model);
     }
 
     @Override
     public void delete(T model) {
-        final int id = model.getId();
+        final Long id = model.getId();
         models.remove(id, model);
         log.debug("Удален объект: {}", model);
     }

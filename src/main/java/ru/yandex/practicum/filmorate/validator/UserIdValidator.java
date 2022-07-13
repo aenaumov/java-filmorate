@@ -9,8 +9,8 @@ import java.util.Optional;
 public class UserIdValidator implements Validator<User> {
     @Override
     public void validate(User user) throws ValidateException {
-        Integer id = user.getId();
-        Optional<Integer> idOptional = Optional.ofNullable(id);
+        Long id = user.getId();
+        Optional<Long> idOptional = Optional.ofNullable(id);
         if (idOptional.isEmpty()) {
             return;
         }

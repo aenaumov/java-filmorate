@@ -32,7 +32,7 @@ class UserControllerTest {
 
     @Test
     void notExisted_Id_Test() {
-        User user = new User(1, "email@yandex.ru", "Alex", "test"
+        User user = new User(1L, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
         ModelNotFoundException e = assertThrows(ModelNotFoundException.class, ()->controller.put(user));
         assertEquals("Объект с id 1 не найден", e.getMessage());
@@ -41,16 +41,16 @@ class UserControllerTest {
     @Test
     void id_negative_Test() {
 
-        User user = new User(0, "email@yandex.ru", "Alex", "test"
+        User user = new User(0L, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
-        user.setId(-1);
+        user.setId(-1L);
         ValidateException e = assertThrows(ValidateException.class, () -> controller.checkValidation(user));
         assertEquals("id пользователя не может быть отрицательным", e.getMessage());
     }
 
     @Test
     void name_empty_Test() throws ValidateException {
-        User user = new User(0, "email@yandex.ru", "Alex", ""
+        User user = new User(0L, "email@yandex.ru", "Alex", ""
                 , LocalDate.of(1900, 10, 20));
         controller.checkValidation(user);
         assertEquals("Alex", user.getName());
@@ -59,7 +59,7 @@ class UserControllerTest {
     @Test
     void email_wrong_Test() {
 
-        User user = new User(0, "email.yandex.ru", "Alex", ""
+        User user = new User(0L, "email.yandex.ru", "Alex", ""
                 , LocalDate.of(1900, 10, 20));
 
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -73,7 +73,7 @@ class UserControllerTest {
 
     @Test
     void login_wrong_Test() {
-        User user = new User(0, "email@yandex.ru", "Alex First", ""
+        User user = new User(0L, "email@yandex.ru", "Alex First", ""
                 , LocalDate.of(1900, 10, 20));
 
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -87,7 +87,7 @@ class UserControllerTest {
     @Test
     void birthday_wrong_Test() {
 
-        User user = new User(0, "email@yandex.ru", "Alex", "", LocalDate.now().plusDays(1));
+        User user = new User(0L, "email@yandex.ru", "Alex", "", LocalDate.now().plusDays(1));
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         ConstraintViolation<User> violation = violations.stream().findFirst().orElseThrow(()

@@ -10,8 +10,8 @@ public class FilmIdValidator implements Validator<Film> {
     @Override
     public void validate(Film film) throws ValidateException {
 
-        Integer id = film.getId();
-        Optional<Integer> idOptional = Optional.ofNullable(id);
+        Long id = film.getId();
+        Optional<Long> idOptional = Optional.ofNullable(id);
         if (idOptional.isEmpty()) {
             return;
         }

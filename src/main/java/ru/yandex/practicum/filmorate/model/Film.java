@@ -28,9 +28,9 @@ public class Film extends Model {
     private Double duration;
 
     @JsonIgnore
-    private Set<Integer> likes = new HashSet<>();
+    private Set<Long> likes = new HashSet<>();
 
-    public Film(Integer id, String name, String description, LocalDate releaseDate, Double duration) {
+    public Film(Long id, String name, String description, LocalDate releaseDate, Double duration) {
         super(id);
         this.name = name;
         this.description = description;
@@ -38,11 +38,11 @@ public class Film extends Model {
         this.duration = duration;
     }
 
-    public void addLike(Integer userId) {
+    public void addLike(Long userId) {
         likes.add(userId);
     }
 
-    public void deleteLike(Integer userId) {
+    public void deleteLike(Long userId) {
         likes.remove(userId);
     }
 }

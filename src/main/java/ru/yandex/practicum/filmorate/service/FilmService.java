@@ -22,7 +22,7 @@ public class FilmService extends ru.yandex.practicum.filmorate.service.Service<F
         this.userStorage = userStorage;
     }
 
-    public void addLike(Integer filmId, Integer userId) {
+    public void addLike(Long filmId, Long userId) {
         if(!isUserId(userId)){
             return;
         }
@@ -31,7 +31,7 @@ public class FilmService extends ru.yandex.practicum.filmorate.service.Service<F
         modelStorage.update(film);
     }
 
-    public void deleteLike(Integer filmId, Integer userId) {
+    public void deleteLike(Long filmId, Long userId) {
         if(!isUserId(userId)){
             return;
         }
@@ -47,8 +47,8 @@ public class FilmService extends ru.yandex.practicum.filmorate.service.Service<F
                 .collect(Collectors.toList());
     }
 
-    public boolean isUserId(Integer id) {
-        Set<Integer> allId = userStorage.getAllId();
+    private boolean isUserId(Long id) {
+        Set<Long> allId = userStorage.getAllId();
         if (!allId.contains(id)) {
             throw new UserNotFoundException(String.format("User с id %d не найден", id));
         }
