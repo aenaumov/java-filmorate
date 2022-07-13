@@ -2,16 +2,15 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.exception.ModelNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.ModelStorage;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import javax.validation.ValidationException;
 import javax.validation.Validator;
 import java.time.LocalDate;
 import java.util.Set;
@@ -35,8 +34,8 @@ class UserControllerTest {
     void notExisted_Id_Test() {
         User user = new User(1, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
-        ValidateException e = assertThrows(ValidateException.class, ()->controller.put(user));
-        assertEquals("нет объекта с таким id: 1", e.getMessage());
+        ModelNotFoundException e = assertThrows(ModelNotFoundException.class, ()->controller.put(user));
+        assertEquals("Объект с id 1 не найден", e.getMessage());
     }
 
     @Test
@@ -45,7 +44,7 @@ class UserControllerTest {
         User user = new User(0, "email@yandex.ru", "Alex", "test"
                 , LocalDate.of(1900, 10, 20));
         user.setId(-1);
-        ValidateException e = assertThrows(ValidateException.class, () -> service.checkValidation(user));
+        ValidateException e = assertThrows(ValidateException.class, () -> controller.checkValidation(user));
         assertEquals("id пользователя не может быть отрицательным", e.getMessage());
     }
 
@@ -53,7 +52,7 @@ class UserControllerTest {
     void name_empty_Test() throws ValidateException {
         User user = new User(0, "email@yandex.ru", "Alex", ""
                 , LocalDate.of(1900, 10, 20));
-        service.checkValidation(user);
+        controller.checkValidation(user);
         assertEquals("Alex", user.getName());
     }
 
