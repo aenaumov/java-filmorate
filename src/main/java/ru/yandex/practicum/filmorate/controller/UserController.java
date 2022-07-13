@@ -28,12 +28,18 @@ public class UserController {
         this.userService = userService;
     }
 
+    /*
+     * Получение всех user
+     */
     @GetMapping
     public Collection<User> getAll() {
         log.info("GET all users");
         return userService.getAll();
     }
 
+    /*
+     * Добавление нового user
+     */
     @PostMapping
     public User post(@Valid @RequestBody User model) throws ValidateException {
         log.info("POST user {}", model);
@@ -42,6 +48,9 @@ public class UserController {
         return model;
     }
 
+    /*
+     * Обновление user
+     */
     @PutMapping
     public User put(@Valid @RequestBody User model) throws ValidateException {
         log.info("PUT user {}", model);
@@ -49,12 +58,18 @@ public class UserController {
         return userService.update(model);
     }
 
+    /*
+     * Получение user по id
+     */
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
         log.info("GET user by id={}", id);
         return userService.getModelById(id);
     }
 
+    /*
+     * Добавление user в друзья
+     */
     @PutMapping("/{id}/friends/{friendId}")
     public void addFriend(@PathVariable("id") Long userId,
                           @PathVariable Long friendId) {
@@ -62,6 +77,9 @@ public class UserController {
         userService.addFriend(userId, friendId);
     }
 
+    /*
+     * Удаление user из друзей
+     */
     @DeleteMapping("/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable("id") Long userId,
                              @PathVariable Long friendId) {
@@ -69,12 +87,18 @@ public class UserController {
         userService.deleteFriend(userId, friendId);
     }
 
+    /*
+     * Получение списка друзей user
+     */
     @GetMapping("/{id}/friends")
     public List<User> getListOfFriends(@PathVariable Long id) {
         log.info("GET list of friends of user id={}", id);
         return userService.getListOfFriend(id);
     }
 
+    /*
+     * Получение общего списка друзей user
+     */
     @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getListOfCommonFriends(@PathVariable("id") Long userId,
                                              @PathVariable Long otherId) {
@@ -82,6 +106,9 @@ public class UserController {
         return userService.getListOfCommonFriends(userId, otherId);
     }
 
+    /*
+     * Проверка валидации user
+     */
     public void checkValidation(User model) throws ValidateException {
         for (Validator<User> validator : validators) {
             validator.validate(model);
