@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
-import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.validator.FilmIdValidator;
@@ -41,7 +40,7 @@ public class FilmController {
      * Добавление нового film
      */
     @PostMapping
-    public Film post(@Valid @RequestBody Film model) throws ValidateException {
+    public Film post(@Valid @RequestBody Film model) {
         log.info("POST film {}", model);
         checkValidation(model);
         filmService.add(model);
@@ -52,7 +51,7 @@ public class FilmController {
      * Обновление film
      */
     @PutMapping
-    public Film put(@Valid @RequestBody Film model) throws ValidateException {
+    public Film put(@Valid @RequestBody Film model) {
         log.info("PUT film {}", model);
         checkValidation(model);
         return filmService.update(model);
@@ -102,7 +101,7 @@ public class FilmController {
     /*
      * Проверка валидации film
      */
-    public void checkValidation(Film model) throws ValidateException {
+    public void checkValidation(Film model) {
         for (Validator<Film> validator : validators) {
             validator.validate(model);
         }

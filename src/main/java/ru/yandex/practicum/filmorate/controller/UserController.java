@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidateException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.validator.UserIdValidator;
@@ -41,7 +40,7 @@ public class UserController {
      * Добавление нового user
      */
     @PostMapping
-    public User post(@Valid @RequestBody User model) throws ValidateException {
+    public User post(@Valid @RequestBody User model) {
         log.info("POST user {}", model);
         checkValidation(model);
         userService.add(model);
@@ -52,7 +51,7 @@ public class UserController {
      * Обновление user
      */
     @PutMapping
-    public User put(@Valid @RequestBody User model) throws ValidateException {
+    public User put(@Valid @RequestBody User model) {
         log.info("PUT user {}", model);
         checkValidation(model);
         return userService.update(model);
@@ -109,7 +108,7 @@ public class UserController {
     /*
      * Проверка валидации user
      */
-    public void checkValidation(User model) throws ValidateException {
+    public void checkValidation(User model) {
         for (Validator<User> validator : validators) {
             validator.validate(model);
         }

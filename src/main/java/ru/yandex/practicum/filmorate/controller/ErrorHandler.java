@@ -2,69 +2,78 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.*;
-import ru.yandex.practicum.filmorate.model.ErrorResponse;
 
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleUserNotFound(final UserNotFoundException e) {
+    public ResponseEntity<String> handleUserNotFound(final UserNotFoundException e) {
         log.info("404 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleFilmNotFound(final FilmNotFoundException e) {
+    public ResponseEntity<String> handleFilmNotFound(final FilmNotFoundException e) {
         log.info("404 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleModelNotFound(final ModelNotFoundException e) {
+    public ResponseEntity<String> handleModelNotFound(final ModelNotFoundException e) {
         log.info("404 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleIncorrectParameter(final IncorrectParameterException e) {
+    public ResponseEntity<String> handleIncorrectParameter(final IncorrectParameterException e) {
         log.info("400 {}", e.getMessage());
-        return new ErrorResponse(String.format("Ошибка с полем \"%s\".", e.getParameter()));
+        return new ResponseEntity<>(
+                String.format("Ошибка с полем \"%s\".", e.getParameter()),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidate(final ValidateFilmRealiseDateException e) {
+    public ResponseEntity<String> handleValidate(final ValidateFilmRealiseDateException e) {
         log.info("400 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleValidate(final ValidateUserIdException e) {
+    public ResponseEntity<String> handleValidate(final ValidateUserIdException e) {
         log.info("404 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleValidate(final ValidateFilmIdException e) {
+    public ResponseEntity<String> handleValidate(final ValidateFilmIdException e) {
         log.info("404 {}", e.getMessage());
-        return new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleException(final Throwable e) {
+    public ResponseEntity<String> handleException(final Throwable e) {
         log.info("500 {}", e.getMessage());
-        return new ErrorResponse("Произошла непредвиденная ошибка.");
+        return new ResponseEntity<>(
+                "Произошла непредвиденная ошибка.",
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
