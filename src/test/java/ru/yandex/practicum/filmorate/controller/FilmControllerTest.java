@@ -3,16 +3,25 @@ package ru.yandex.practicum.filmorate.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.ModelStorage;
 
 @WebMvcTest(controllers = FilmController.class)
 class FilmControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @MockBean
+    FilmService filmService;
+    @MockBean
+    ModelStorage<Film> modelStorage;
 
     @Test
     void post_Film_correct_Test() throws Exception {
@@ -37,7 +46,7 @@ class FilmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"\",\"description\":\"Description Film 1\"," +
                                 "\"releaseDate\":\"1985-10-30\",\"duration\":150}"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
 
     }
 
@@ -51,7 +60,7 @@ class FilmControllerTest {
                                 " Description Film 1 _ Description Film 1 _ Description Film 1 _ Description Film 1 _" +
                                 " Description Film 1 _ Description Film 1 \"," +
                                 "\"releaseDate\":\"1985-10-30\",\"duration\":150}"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
     }
 
     @Test
@@ -61,7 +70,7 @@ class FilmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Film_1\",\"description\":\"Description Film 1\"," +
                                 "\"releaseDate\":\"1985-10-30\",\"duration\":-10}"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
     }
 
     @Test
@@ -71,7 +80,7 @@ class FilmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Film_1\",\"description\":\"Description Film 1\"," +
                                 "\"releaseDate\":\"1985-10-30\",\"duration\":0}"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
     }
 
     @Test
@@ -81,7 +90,7 @@ class FilmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Film_1\",\"description\":\"Description Film 1\"," +
                                 "\"releaseDate\":\"1895-12-27\",\"duration\":100}"))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
     @Test
@@ -90,7 +99,7 @@ class FilmControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":-1,\"name\":\"Film_1\",\"description\":\"Description Film 1\"," +
                                 "\"releaseDate\":\"1985-10-30\",\"duration\":100}"))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError());
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
 }
