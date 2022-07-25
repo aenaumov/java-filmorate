@@ -4,6 +4,8 @@ Template repository for Filmorate project.
 
 CRUD-операции
 
+Table users 
+
 SELECT * FROM users; -- получить всех User
 
 INSERT INTO users (id, name, email, login, birthday) VALUES (...); --добавление User
@@ -14,7 +16,7 @@ DELETE FROM users WHERE id = ...; --удаление User
 
 SELECT * FROM users WHERE id = ... ; -- получение User по id
 
-
+Table film
 
 SELECT * FROM film; -- получить все Film
 
@@ -26,13 +28,15 @@ DELETE FROM film WHERE id = ...; --удаление Film
 
 SELECT * FROM film WHERE id = ... ; -- получение Film по id
 
-
+Table friendship 
 
 INSERT INTO friendship (sender, receiver, status) VALUES (...); -- отправить запрос на дружбу
 
-UPDATE friendship SET status = ... ; - подтверждение добавления в друзья \ удаление из друзей получателем запроса на дружбу
+UPDATE friendship SET status = ... WHERE sender IN (...) AND receiver IN (...); - подтверждение добавления в друзья \ удаление из друзей получателем запроса на дружбу
 
 DELETE FROM friendship WHERE sender IN (...) AND receiver IN (...); -- отправитель запроса на дружбу удаляет друга (((:
+
+SELECT * FROM friendship WHERE sender IN (...) AND receiver IN (...); -- получение записи о дружбе двух User
 
 SELECT sender FROM friendship WHERE receiver = ... AND status = true UNION SELECT receiver FROM friendship WHERE sender = ... ; -- получение списка друзей User
 
@@ -40,7 +44,7 @@ SELECT sender FROM friendship WHERE receiver = ... AND status = true; -- пол�
 
 SELECT receiver FROM friendship WHERE sender = ... ; -- получение списка друзей User (когда User отправил запрос)
 
-
+Table likes 
 
 INSERT INTO likes (id_film, id_user) VALUES (...); -- User ставит like Film
 
